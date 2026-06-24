@@ -16,4 +16,4 @@ Use the version selector located in the header of the documentation to transitio
 - **Releases (e.g., 1.0.0)**: Stable releases mapped to git tags.
 
 
-Happy coding 👋!
+Happy coding 👋! - `version 0.1.0`
