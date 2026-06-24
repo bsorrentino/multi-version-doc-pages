@@ -2,8 +2,8 @@ name: Deploy Documentation
 
 on:
   push:
-    branches:
-      - develop
+    # branches:
+    #   - develop
     tags:
       - 'v*'
   workflow_dispatch:
@@ -49,10 +49,11 @@ jobs:
       - name: Deploy version with Mike
         run: |
           if [[ "${{ github.ref_type }}" == "tag" ]]; then
-            # Extract version from tag (e.g., v1.0.0 -> 1.0.0)
+            # Extract version from tag and keep only major.minor (e.g., v1.0.5 -> 1.0)
             TAG_NAME="${{ github.ref_name }}"
-            VERSION_NAME="${TAG_NAME#v}"
-            echo "Deploying release version: $VERSION_NAME"
+            VERSION_FULL="${TAG_NAME#v}"
+            VERSION_NAME=$(echo "$VERSION_FULL" | cut -d. -f1,2)
+            echo "Deploying release version: $VERSION_NAME (from $TAG_NAME)"
             mike deploy --push --update-aliases "$VERSION_NAME" latest
             # Set this new version as the default alias target
             mike set-default --push latest
